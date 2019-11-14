@@ -1,17 +1,17 @@
-﻿using Laboratorio_7_OOP_201902.Cards;
-using Laboratorio_7_OOP_201902.Enums;
+﻿using Laboratorio_8_OOP_201920.Cards;
+using Laboratorio_8_OOP_201920.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Laboratorio_7_OOP_201902.Static
+namespace Laboratorio_8_OOP_201920.Static
 {
     public static class Visualization
     {
         public static void ShowHand(Hand hand)
         {
             CombatCard combatCard;
-            Console.WriteLine("Hand: ");
+            ShowProgramMessage("Hand: ");
             for (int i = 0; i<hand.Cards.Count; i++)
             {
                 if (hand.Cards[i] is CombatCard)
@@ -31,18 +31,27 @@ namespace Laboratorio_7_OOP_201902.Static
         }
         public static void ShowDecks(List<Deck> decks)
         {
-            Console.WriteLine("Select one Deck:");
+            ShowProgramMessage("Select one Deck:");
             for (int i = 0; i<decks.Count; i++)
             {
                 Console.WriteLine($"({i}) Deck {i+1}");
+                Console.WriteLine("\tCharacteristics: ");
+                foreach (string charac in decks[i].GetCharacteristics())
+                {
+                    Console.WriteLine("\t"+charac);
+                }
             }
         }
         public static void ShowCaptains(List<SpecialCard> captains)
         {
-            Console.WriteLine("Select one captain:");
+            ShowProgramMessage("Select one captain:");
             for (int i = 0; i < captains.Count; i++)
             {
-                Console.WriteLine($"({i}) {captains[i].Name}: {captains[i].Effect}");
+                Console.WriteLine($"({i}) {captains[i].Name}");
+                foreach (string charac in captains[i].GetCharacteristics())
+                {
+                    Console.WriteLine("\t" + charac);
+                }
             }
         }
         public static int GetUserInput(int maxInput, bool stopper = false)
@@ -140,6 +149,14 @@ namespace Laboratorio_7_OOP_201902.Static
             }
             Console.WriteLine();
             
+        }
+        public static void ShowCard(Card card)
+        {
+            Console.WriteLine("Card:");
+            foreach (string charac in card.GetCharacteristics())
+            {
+                Console.WriteLine("\t"+charac);
+            }
         }
 
     }

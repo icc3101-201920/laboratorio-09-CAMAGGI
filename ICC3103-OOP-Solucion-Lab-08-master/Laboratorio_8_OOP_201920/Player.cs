@@ -1,12 +1,13 @@
-﻿using Laboratorio_7_OOP_201902.Cards;
-using Laboratorio_7_OOP_201902.Enums;
-using Laboratorio_7_OOP_201902.Interfaces;
+﻿using Laboratorio_8_OOP_201920.Cards;
+using Laboratorio_8_OOP_201920.Enums;
+using Laboratorio_8_OOP_201920.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Laboratorio_7_OOP_201902
+namespace Laboratorio_8_OOP_201920
 {
+    [Serializable]
     public class Player: IAttackPoints
     {
         //Constantes
@@ -146,7 +147,7 @@ namespace Laboratorio_7_OOP_201902
         public void ChooseCaptainCard(SpecialCard captainCard)
         {
             Captain = captainCard;
-            board.AddCard(new SpecialCard(Captain.Name, Captain.Type, Captain.Effect), Id);
+            board.AddCard(new SpecialCard(Captain.Name, Captain.Type, Captain.CardEffect), Id);
         }
 
         /*
@@ -166,12 +167,12 @@ namespace Laboratorio_7_OOP_201902
             if (cardList.Cards[cardId] is CombatCard)
             {
                 CombatCard card = cardList.Cards[cardId] as CombatCard;
-                return new CombatCard(card.Name, card.Type, card.Effect, card.AttackPoints, card.Hero);
+                return new CombatCard(card.Name, card.Type, card.CardEffect, card.AttackPoints, card.Hero);
             }
             else
             {
                 SpecialCard card = cardList.Cards[cardId] as SpecialCard;
-                return new SpecialCard(card.Name, card.Type, card.Effect);
+                return new SpecialCard(card.Name, card.Type, card.CardEffect);
             }
         }
 

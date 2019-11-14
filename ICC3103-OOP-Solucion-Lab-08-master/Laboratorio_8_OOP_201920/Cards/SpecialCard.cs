@@ -1,10 +1,12 @@
-﻿using Laboratorio_7_OOP_201902.Enums;
+﻿using Laboratorio_8_OOP_201920.Enums;
+using Laboratorio_8_OOP_201920.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Laboratorio_7_OOP_201902.Cards
+namespace Laboratorio_8_OOP_201920.Cards
 {
+    [Serializable]
     public class SpecialCard : Card
     {
         //Atributos
@@ -23,14 +25,21 @@ namespace Laboratorio_7_OOP_201902.Cards
             }
         }
         //Constructor
-        public SpecialCard(string name, EnumType type, string effect)
+        public SpecialCard(string name, EnumType type, EnumEffect effect)
         {
             Name = name;
             Type = type;
-            Effect = effect;
+            CardEffect = effect;
             BuffType = null;
         }
 
-        
+        public override List<string> GetCharacteristics()
+        {
+            return new List<string>() {
+                $"Name: {Name}",
+                $"Type: {Type.ToString()}",
+                $"Effect: {Effect.GetEffectDescription(CardEffect)}",
+            };
+        }
     }
 }

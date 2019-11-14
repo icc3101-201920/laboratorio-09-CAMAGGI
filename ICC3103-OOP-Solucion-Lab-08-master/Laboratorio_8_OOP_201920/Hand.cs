@@ -1,10 +1,11 @@
-﻿using Laboratorio_7_OOP_201902.Cards;
+﻿using Laboratorio_8_OOP_201920.Cards;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Laboratorio_7_OOP_201902
+namespace Laboratorio_8_OOP_201920
 {
+    [Serializable]
     public class Hand : Deck
     {
 

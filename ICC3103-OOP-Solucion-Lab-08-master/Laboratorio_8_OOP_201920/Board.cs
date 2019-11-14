@@ -1,12 +1,13 @@
-﻿using Laboratorio_7_OOP_201902.Cards;
-using Laboratorio_7_OOP_201902.Enums;
-using Laboratorio_7_OOP_201902.Interfaces;
+﻿using Laboratorio_8_OOP_201920.Cards;
+using Laboratorio_8_OOP_201920.Enums;
+using Laboratorio_8_OOP_201920.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Laboratorio_7_OOP_201902
+namespace Laboratorio_8_OOP_201920
 {
+    [Serializable]
     public class Board : IAttackPoints
     {
         //Constantes
@@ -29,6 +30,10 @@ namespace Laboratorio_7_OOP_201902
             get
             {
                 return this.weatherCards;
+            }
+            set
+            {
+                this.weatherCards = value;
             }
         }
 

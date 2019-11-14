@@ -1,16 +1,18 @@
-﻿using Laboratorio_7_OOP_201902.Enums;
+﻿using Laboratorio_8_OOP_201920.Enums;
+using Laboratorio_8_OOP_201920.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Laboratorio_7_OOP_201902.Cards
+namespace Laboratorio_8_OOP_201920.Cards
 {
-    public abstract class Card
+    [Serializable]
+    public abstract class Card : ICharacteristics
     {
         //Atributos
         protected string name;
         protected EnumType type;
-        protected string effect;
+        protected EnumEffect effect;
 
         //Constructor
         public Card()
@@ -41,7 +43,7 @@ namespace Laboratorio_7_OOP_201902.Cards
                 this.type = value;
             }
         }
-        public string Effect
+        public EnumEffect CardEffect
         {
             get
             {
@@ -52,6 +54,7 @@ namespace Laboratorio_7_OOP_201902.Cards
                 this.effect = value;
             }
         }
-        
+
+        public abstract List<string> GetCharacteristics();
     }
 }
