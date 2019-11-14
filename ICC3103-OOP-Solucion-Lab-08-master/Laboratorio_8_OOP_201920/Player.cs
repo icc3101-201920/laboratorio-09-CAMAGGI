@@ -99,6 +99,7 @@ namespace Laboratorio_8_OOP_201920
             Card tempCard = CreateTempCard(cardId);
             hand.AddCard(tempCard);
             deck.DestroyCard(cardId);
+            Effects();
         }
         public void PlayCard(int cardId, EnumType buffRow = EnumType.None)
         {
@@ -108,6 +109,7 @@ namespace Laboratorio_8_OOP_201920
             if (tempCard is CombatCard)
             {
                 board.AddCard(tempCard, this.Id);
+                Effects();
             }
             else
             {
@@ -119,6 +121,7 @@ namespace Laboratorio_8_OOP_201920
                 {
                     board.AddCard(tempCard);
                 }
+                Effects();
             }
             hand.DestroyCard(cardId);
         }
@@ -133,6 +136,8 @@ namespace Laboratorio_8_OOP_201920
             hand.AddCard(tempDeckCard);
             deck.DestroyCard(deckCardId);
             deck.AddCard(tempCard);
+            Effects();
+
         }
 
         public void FirstHand()
@@ -186,5 +191,55 @@ namespace Laboratorio_8_OOP_201920
             }
             return new int[] { attackPoints };
         }
+
+
+        private void Effects()
+        {
+            foreach (Card card in Deck.Cards)
+            {
+                EnumEffect e = card.CardEffect;
+                if (Enum.IsDefined(typeof(EnumEffect), e))
+                {
+                    OnCardPlayed(card);
+                }
+            }
+        }
+        //----EVentos---
+        public event EventHandler<PlayerEventArgs> CardPlayed;
+
+        //----Metodos On 
+        public virtual void OnCardPlayed(Card card)
+        {
+            if (CardPlayed != null)
+            {
+                CardPlayed(this, new PlayerEventArgs() { Card = card, Player = this });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

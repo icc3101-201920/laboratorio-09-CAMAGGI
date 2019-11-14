@@ -161,7 +161,7 @@ namespace Laboratorio_8_OOP_201920
                         ActivePlayer = Players[firstOrSecondUser];
                         Visualization.ClearConsole();
                         //Mostrar mensaje de inicio
-                        Visualization.ShowProgramMessage($"Player {ActivePlayer.Id+1} select Deck and Captain:");
+                        Visualization.ShowProgramMessage($"Player {ActivePlayer.Id + 1} select Deck and Captain:");
                         //Preguntar por deck
                         Visualization.ShowDecks(this.Decks);
                         userInput = Visualization.GetUserInput(this.Decks.Count - 1);
@@ -190,7 +190,7 @@ namespace Laboratorio_8_OOP_201920
                                     Visualization.ShowProgramMessage($"Player {ActivePlayer.Id + 1} change cards:");
                                     Visualization.ShowHand(ActivePlayer.Hand);
                                     Visualization.ShowProgramMessage($"Input the number of the card to change (max {DEFAULT_CHANGE_CARDS_NUMBER}). To stop enter -1");
-                                    userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count-1, true);
+                                    userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count - 1, true);
                                     if (userInput == -1) continue;
                                     ActivePlayer.ChangeCard(userInput);
                                     Visualization.ShowHand(ActivePlayer.Hand);
@@ -201,7 +201,7 @@ namespace Laboratorio_8_OOP_201920
                                     Visualization.ClearConsole();
                                     Visualization.ShowHand(ActivePlayer.Hand);
                                     Visualization.ShowProgramMessage($"Input the number of the card to see. To stop enter -1");
-                                    userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count-1, true);
+                                    userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count - 1, true);
                                     if (userInput == -1) continue;
                                     Visualization.ShowCard(ActivePlayer.Hand.Cards[userInput]);
                                     userInput = -1;
@@ -322,6 +322,8 @@ namespace Laboratorio_8_OOP_201920
                         BoardGame.DestroyCards();
                     }
                 }
+                UnsubscribeToEvent(Players[0]);
+                UnsubscribeToEvent(Players[1]);
                 actualData["decks"] = Decks;
                 actualData["captains"] = Captains;
                 actualData["players"] = Players;
@@ -446,5 +448,17 @@ namespace Laboratorio_8_OOP_201920
             }
             
         }
+
+        //----Eventos
+
+        private void SubscribeToEvent(Player pl) => pl.CardPlayed += this.OnPlayedCard;
+        private void UnsubscribeToEvent(Player pl) => pl.CardPlayed -= this.OnPlayedCard;
+        //----Metodos
+        private void OnPlayedCard(object source, PlayerEventArgs e)
+        {
+            // Aplicamos el efecto, a la carta del player que engatillo el  evento
+            Effect.ApplyEffect(e.Card, e.Player == players[0] ? players[0] : players[1], e.Player == players[0] ? players[1] : players[0], this.boardGame);
+        }
+
     }
 }
