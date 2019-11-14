@@ -148,7 +148,7 @@ namespace Laboratorio_8_OOP_201920
             int userInput = 0;
             int firstOrSecondUser = ActivePlayer.Id == 0 ? 0 : 1;
             int winner = -1;
-            
+
 
             while (turn < 4 && !CheckIfEndGame())
             {
@@ -156,7 +156,7 @@ namespace Laboratorio_8_OOP_201920
                 //turno 0 o configuracion
                 if (turn == 0)
                 {
-                    for (int _ = 0; _<Players.Length; _++)
+                    for (int _ = 0; _ < Players.Length; _++)
                     {
                         ActivePlayer = Players[firstOrSecondUser];
                         Visualization.ClearConsole();
@@ -209,9 +209,9 @@ namespace Laboratorio_8_OOP_201920
                                 default:
                                     break;
                             }
-                            
+
                         }
-                        
+
                         firstOrSecondUser = ActivePlayer.Id == 0 ? 1 : 0;
                     }
                     turn += 1;
@@ -219,6 +219,8 @@ namespace Laboratorio_8_OOP_201920
                 //turnos siguientes
                 else
                 {
+                    Players[0].CardPlayed += this.OnPlayedCard;
+                    Players[1].CardPlayed += this.OnPlayedCard;
                     Boolean cycle = true;
                     while (cycle)
                     {
@@ -229,7 +231,7 @@ namespace Laboratorio_8_OOP_201920
                         int[] attackPoints = new int[2] { Players[0].GetAttackPoints()[0], Players[1].GetAttackPoints()[0] };
                         //Mostrar tablero, mano y solicitar jugada
                         Visualization.ClearConsole();
-                        Visualization.ShowBoard(boardGame, ActivePlayer.Id, lifePoints,attackPoints);
+                        Visualization.ShowBoard(boardGame, ActivePlayer.Id, lifePoints, attackPoints);
                         //Robar carta
                         if (!drawCard)
                         {
@@ -237,14 +239,14 @@ namespace Laboratorio_8_OOP_201920
                             drawCard = true;
                         }
                         Visualization.ShowHand(ActivePlayer.Hand);
-                        Visualization.ShowListOptions(new List<string> { "Play Card", "See card", "Pass" }, $"Make your move player {ActivePlayer.Id+1}:");
+                        Visualization.ShowListOptions(new List<string> { "Play Card", "See card", "Pass" }, $"Make your move player {ActivePlayer.Id + 1}:");
                         userInput = Visualization.GetUserInput(2);
                         switch (userInput)
                         {
                             case 0:
                                 //Si la carta es un buff solicitar a la fila que va.
                                 Visualization.ShowProgramMessage($"Input the number of the card to play. To cancel enter -1");
-                                userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count-1, true);
+                                userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count - 1, true);
                                 if (userInput != -1)
                                 {
                                     if (ActivePlayer.Hand.Cards[userInput].Type == EnumType.buff)
@@ -266,8 +268,9 @@ namespace Laboratorio_8_OOP_201920
                                         }
                                     }
                                     else
-                                    {
+                                    {                                        
                                         ActivePlayer.PlayCard(userInput);
+                                        ActivePlayer.OnCardPlayed(ActivePlayer.Hand.Cards[userInput]);
                                     }
                                 }
                                 //Revisar si le quedan cartas, si no le quedan obligar a pasar.
@@ -281,10 +284,10 @@ namespace Laboratorio_8_OOP_201920
                                 Visualization.ClearConsole();
                                 Visualization.ShowHand(ActivePlayer.Hand);
                                 Visualization.ShowProgramMessage($"Input the number of the card to see. To stop enter -1");
-                                userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count-1, true);
+                                userInput = Visualization.GetUserInput(ActivePlayer.Hand.Cards.Count - 1, true);
                                 if (userInput == -1) continue;
                                 Visualization.ShowCard(ActivePlayer.Hand.Cards[userInput]);
-                                Visualization.ShowListOptions(new List<string> {"Continue" });
+                                Visualization.ShowListOptions(new List<string> { "Continue" });
                                 userInput = Visualization.GetUserInput(0);
                                 break;
                             default:
@@ -322,8 +325,8 @@ namespace Laboratorio_8_OOP_201920
                         BoardGame.DestroyCards();
                     }
                 }
-                UnsubscribeToEvent(Players[0]);
-                UnsubscribeToEvent(Players[1]);
+                Players[0].CardPlayed -= this.OnPlayedCard;
+                Players[1].CardPlayed -= this.OnPlayedCard;
                 actualData["decks"] = Decks;
                 actualData["captains"] = Captains;
                 actualData["players"] = Players;
@@ -449,15 +452,16 @@ namespace Laboratorio_8_OOP_201920
             
         }
 
-        //----Eventos
-
-        private void SubscribeToEvent(Player pl) => pl.CardPlayed += this.OnPlayedCard;
-        private void UnsubscribeToEvent(Player pl) => pl.CardPlayed -= this.OnPlayedCard;
-        //----Metodos
         private void OnPlayedCard(object source, PlayerEventArgs e)
         {
-            // Aplicamos el efecto, a la carta del player que engatillo el  evento
-            Effect.ApplyEffect(e.Card, e.Player == players[0] ? players[0] : players[1], e.Player == players[0] ? players[1] : players[0], this.boardGame);
+            if (e.Player == players[0])
+            {
+                Effect.ApplyEffect(e.Card, players[0], players[0], this.boardGame);
+            }
+            else
+            {
+                Effect.ApplyEffect(e.Card, players[1], players[1], this.boardGame);
+            }
         }
 
     }

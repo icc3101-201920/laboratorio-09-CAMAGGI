@@ -13,6 +13,7 @@ namespace Laboratorio_8_OOP_201920.Cards
         private int attackPoints;
         private int originalAttackPoints;
         private bool hero;
+       
 
         //Constructor
         public CombatCard(string name, EnumType type, EnumEffect effect, int attackPoints, bool hero)
@@ -21,7 +22,7 @@ namespace Laboratorio_8_OOP_201920.Cards
             Type = type;
             CardEffect = effect;
             AttackPoints = attackPoints;
-            OriginalAttackPoints = attackPoints;
+            OriginalAttackPoints = attackPoints;           
             Hero = hero;
         }
 
@@ -38,7 +39,7 @@ namespace Laboratorio_8_OOP_201920.Cards
             }
         }
 
-        public int OriginalAttackPoints { get => originalAttackPoints; private set => originalAttackPoints = value; }
+        public int OriginalAttackPoints { get => originalAttackPoints;  set => originalAttackPoints = value; }
         public bool Hero
         { get
             {
@@ -49,6 +50,8 @@ namespace Laboratorio_8_OOP_201920.Cards
                 this.hero = value;
             }
         }
+
+       
 
         public override List<string> GetCharacteristics()
         {
